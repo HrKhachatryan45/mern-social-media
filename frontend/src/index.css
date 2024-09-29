@@ -1,0 +1,424 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.specialText{
+    background-image: linear-gradient(90deg, rgba(0,234,151,1) 0%, rgba(0,167,243,1) 100%);
+    background-clip: text;
+    color: transparent;
+}
+.sd{
+    background-size: 100% 100%!important;
+}
+
+.video-player{
+    width: 100%;
+    height: fit-content;
+}
+
+.slide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container:after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    border-radius: 5px;
+}
+.slider-list{
+    height: 100%;
+}
+
+.nextButton,.prevButton{
+    padding: 4px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: transparent!important;
+    font-size: 18px;
+    border: 0px;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+    opacity: 1;
+    cursor: pointer;
+}
+.nextButton{
+    position: absolute;
+    right: -55px;
+}
+
+.slider-container{
+    width: 90%;
+}
+
+.prevButton{
+    position: absolute;
+    left: -55px;
+}
+.nextButton:hover,.prevButton:hover{
+    background: rgba(105, 102, 102, 0.2) !important;
+    transition: 0.5s;
+}
+.nj:hover{
+    background:#E5E6E8 !important;
+    transition: 0.5s;
+}
+
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-track{
+    background: #dbdcdc;
+    color: #ece9e9;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, rgba(0,234,151,1) 0%, rgba(0,167,243,1) 100%);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pt a{
+    color: #70C4CE;
+    margin-left: 7px;
+    display: contents;
+}
+
+.emoji{
+    width: 300px!important;
+    height: 400px!important;
+}
+.n1 em-emoji-picker{
+    width: 320px!important;
+    height: 384px!important;
+    position: absolute;
+    top: 56px;
+    right: 0;
+    z-index: 50;
+}
+
+.n2 em-emoji-picker{
+    width: 320px!important;
+    height: 384px!important;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 64px;
+    z-index: 50;
+}
+.n3 em-emoji-picker{
+    width: 320px!important;
+    height: 384px!important;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 64px;
+    z-index: 50;
+}
+
+.hundred{
+    background-size: 100% 100% !important;
+}
+.zero{
+    background-size: cover!important;
+}
+
+.isDisabled{
+    cursor: pointer;
+    z-index: -10;
+    color: grey;
+}
+.is{
+    opacity: 0;
+    transition: 0.5s ease-in-out all;
+}
+.parent:hover .is{
+    opacity: 1;
+}
+
+
+/* SHAKE ANIMATION ON HORIZONTAL DIRECTION */
+.shake {
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.2s both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+
+.myDropdown{
+    position: absolute;
+    left: -30px;
+    z-index: 1000!important;
+}
+.chatmateDropdown{
+    position: absolute;
+    right: 10px;
+    z-index: 1000!important;
+}
+.top{
+    top: 30px;
+}
+.all{
+    display: none;
+}
+.bottom{
+    bottom: 30px;
+}
+
+.customCheckBox{
+    --chkbg: #00CAC2;
+    --chkfg: #ffffff;
+}
+
+@media (max-width: 1280px) and (min-width: 1024px) {
+    .n2 em-emoji-picker{
+        width: 290px!important;
+        height: 344px!important;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+    .n3 em-emoji-picker{
+        width: 290px!important;
+        height: 344px!important;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+
+    .n1 em-emoji-picker{
+        width: 290px!important;
+        height: 344px!important;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        z-index: 50;
+    }
+
+
+    .checkbox{
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+
+    .nextButton,.prevButton{
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 9px;
+    }
+    .nextButton{
+        right: -50px;
+    }
+    .prevButton{
+        left: -50px;
+    }
+
+
+
+}
+@media (max-width: 1024px) and (min-width: 768px) {
+    .n2 em-emoji-picker{
+        width: 240px!important;
+        height: 290px!important;
+        position: absolute;
+        bottom: 0;
+        left: -200px;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+    .n3 em-emoji-picker{
+        width: 240px!important;
+        height: 290px!important;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+
+    .n1 em-emoji-picker{
+        width: 240px!important;
+        height: 290px!important;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        z-index: 50;
+    }
+    .checkbox{
+        width: 1rem;
+        height: 1rem;
+        border-radius: 5px;
+    }
+
+    .nextButton,.prevButton{
+        padding: 3px;
+        border-radius: 4px;
+        font-size: 13px;
+        padding: 7.5px;
+    }
+    .nextButton{
+        right: -38px;
+    }
+    .prevButton{
+        left: -38px;
+    }
+
+
+
+}
+@media (max-width: 768px) and (min-width: 640px) {
+    .n2 em-emoji-picker{
+        width: 200px!important;
+        height: 240px!important;
+        position: absolute;
+        bottom: 0;
+        left: -160px;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+
+    .n1 em-emoji-picker{
+        width: 240px!important;
+        height: 290px!important;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        z-index: 50;
+    }
+
+    .n3 em-emoji-picker{
+        width: 240px!important;
+        height: 290px!important;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+
+    .checkbox{
+        width: 1rem;
+        height: 1rem;
+        border-radius: 5px;
+    }
+
+    .nextButton,.prevButton{
+        padding: 2px;
+        border-radius: 3px;
+        font-size: 11px;
+        padding: 5.5px;
+    }
+    .nextButton{
+        right: -28px;
+    }
+    .prevButton{
+        left: -28px;
+    }
+
+
+}
+
+@media only screen and (max-width: 640px) {
+    .n2 em-emoji-picker{
+        width: 230px!important;
+        height: 270px!important;
+        position: absolute;
+        bottom: -20px;
+        left: -160px;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+    .n3 em-emoji-picker{
+        width: 230px!important;
+        height: 270px!important;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 64px;
+        z-index: 50;
+    }
+
+    .n1 em-emoji-picker{
+        width: 200px!important;
+        height: 240px!important;
+        position: absolute;
+        top: 45px;
+        right: 0;
+        z-index: 50;
+    }
+
+    .checkbox{
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 5px;
+    }
+
+    .nextButton,.prevButton{
+        padding: 2px;
+        border-radius: 3px;
+        font-size: 9px;
+        padding: 4px;
+    }
+    .nextButton{
+        right: -18px;
+    }
+    .prevButton{
+        left: -18px;
+    }
+
+}
+
+
+.video-react{
+    height: 100%;
+}
+.pp .hio{
+    height: 100%;
+}
