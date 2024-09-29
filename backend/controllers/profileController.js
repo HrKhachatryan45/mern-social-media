@@ -178,6 +178,8 @@ const addPost = async (req, res) => {
     if (req.files['video'] && req.files['video'].length > 0) {
         video = req.files['video'][0].filename;
     }
+    console.log(photo,'photo')
+    console.log(video,'video')
 
     const userCreator = await User.findById(userId)
 
