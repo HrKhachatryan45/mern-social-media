@@ -7,7 +7,7 @@ const usePost = () =>{
         try {
             const success  = handleInputs(formData)
             if(success) return ;
-            const response = await fetch('https://mern-social-media-vrmd.onrender.com/api/profile/post/api/profile/post',{
+            const response = await fetch('/api/profile/post',{
                 method:'POST',
                 body:formData
             })
