@@ -13,7 +13,7 @@ export const SocketContextProvider = ({children}) => {
     const [onlineUsers,setOnlineUsers] =useState([])
     useEffect(() => {
         if (authUser){
-            const socket = io('http://localhost:8080/',{
+            const socket = io('https://mern-social-media-vrmd.onrender.com',{
                 query:{
                     userId: authUser._id
                 }
