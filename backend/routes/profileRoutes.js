@@ -8,7 +8,7 @@ const protectRoute = require("../middleware/protectRoute");
 const path = require('path')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(__dirname, 'uploads/');
     },
     filename: (req, file, cb) => {
         const date = new Date().getTime()
