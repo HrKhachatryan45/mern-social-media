@@ -6,16 +6,26 @@ const router = express.Router();
 const multer = require("multer");
 const protectRoute = require("../middleware/protectRoute");
 const path = require('path')
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'backend/uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//         const date = new Date().getTime()
+//         const uniqueName =date + file.originalname
+//         cb(null,uniqueName)
+//     }
+// })
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'backend/uploads/');
+        cb(null, path.join(__dirname, '../uploads/'));
     },
     filename: (req, file, cb) => {
-        const date = new Date().getTime()
-        const uniqueName =date + file.originalname
-        cb(null,uniqueName)
+        const date = new Date().getTime();
+        const uniqueName = date + path.extname(file.originalname);
+        cb(null, uniqueName);
     }
-})
+});
 
 const upload = multer({storage:storage})
 
