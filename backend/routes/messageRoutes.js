@@ -5,14 +5,37 @@ const {sendNewMessage, getAllMessages, getUsersForSideBar, reactToMessage, delet
 const router = express.Router();
 const protectRoute = require("../middleware/protectRoute");
 const multer = require("multer");
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'backend/uploadsM/');
-    },
-    filename:function (req,file,cb){
-        const date = new Date().getTime()
-        const uniqueName =date + file.originalname
-        cb(null,uniqueName)
+const {CloudinaryStorage} = require("multer-storage-cloudinary");
+const cloudinary = require('../cloudinary');
+
+
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'uploadsM',
+        allowed_formats: [
+            'jpg',
+            'jpeg',
+            'png',
+            'gif',
+            'webp',
+            'svg',
+            'bmp',
+            'tiff',
+            'ico',
+            'mp4',
+            'mp3',
+            'wav',
+            'ogg',
+            'aac'
+        ],
+        resource_type: 'auto', // This allows both image and video upload
+        public_id: (req, file) => {
+            const date = new Date().getTime();
+            const uniqueName = date + '-' + file.originalname.split('.')[0];
+            return uniqueName; // The name of the file in Cloudinary
+        },
     }
 })
 

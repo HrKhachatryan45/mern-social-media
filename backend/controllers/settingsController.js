@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const fs = require("fs");
 const Notification = require("../models/notificationModel");
-
+const cloudinary = require('../cloudinary')
 const updateInfo = async (req, res) => {
   try {
       const userId = req.user._id
@@ -59,8 +59,8 @@ const updateInfo = async (req, res) => {
               birthDay:birthDay?birthDay:user.info.birthDay || ''
           },
           images:{
-              profileImage:profileImage?`${req.protocol}://${req.get('host')}/profile/images/${profileImage}`:user.images.profileImage,
-              backgroundImage:backgroundImage?`${req.protocol}://${req.get('host')}/profile/images/${backgroundImage}`:user.images.backgroundImage,
+              profileImage:profileImage?cloudinary.url(`${profileImage}`):user.images.profileImage,
+              backgroundImage:backgroundImage?cloudinary.url(`${backgroundImage}`):user.images.backgroundImage,
           }
       },{ new: true })
           .populate([{path: 'notifications',populate:[{path: 'senderId'},{path: 'postId'}]}])

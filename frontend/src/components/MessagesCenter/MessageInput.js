@@ -140,6 +140,7 @@ function MessageInput({onChange}) {
         if (audioFile){
             formData.append('audio',audioFile)
         }
+
         // if (photos){
         //     formData.append('photos',photos)
         // }

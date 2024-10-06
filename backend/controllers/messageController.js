@@ -3,71 +3,160 @@ const Conversation = require('../models/conversationModel');
 const User = require('../models/userModel')
 const path = require('path');
 const fs = require('fs');
+const cloudinary = require('../cloudinary')
 const {io, getReceiverSocketId} = require("../socket/socket");
-const sendNewMessage  = async (req, res) => {
+// const sendNewMessage  = async (req, res) => {
+//     try {
+//         const senderId = req.user._id;
+//         const {id:receiverId} = req.params
+//         const {message} = req.body;
+//         const files = req.files;
+//
+//         const baseUrl = `${req.protocol}://${req.get('host')}/messages/images/`;
+//
+//         // Process the uploaded files
+//         console.log(files,'files of now')
+//         const photos = files.photos ? files.photos.map(file => {
+//             return {
+//                 url:`${baseUrl}${file.filename}`,
+//             }
+//         }) : undefined ;
+//         const videos = files.videos ? files.videos.map(file => {
+//             return {
+//                 url:`${baseUrl}${file.filename}`
+//             }
+//         }) : undefined ;
+//         const audio = files.audio ? {url:`${baseUrl}${files.audio[0].filename}`} : undefined;
+//
+//         files.audio &&     res.set('Content-Length', files.audio[0].length);
+//
+//
+//         let conversation = await Conversation.findOne({
+//             participants: {$all:[senderId,receiverId]}
+//         })
+//
+//         if (!conversation){
+//             conversation = await Conversation.create({
+//                 participants: [senderId,receiverId]
+//             })
+//         }
+//
+//         const newMessage = new Message({
+//             senderId,
+//             receiverId,
+//             message:{
+//                 content:message
+//             },
+//             photos,
+//             videos,
+//             audio,
+//         })
+//         console.log(photos,'why')
+//
+//         const savedMessage = await newMessage.save()
+//
+//         if (savedMessage) {
+//             conversation.messages.push(savedMessage._id)
+//             await conversation.save(); // Save the conversation after updating messages
+//         }
+//         const receiverSocketId = getReceiverSocketId(receiverId)
+//         io.to(receiverSocketId).emit('newMessage', newMessage)
+//
+//         return res.status(200).json(newMessage)
+//
+//     }catch (error) {
+//         console.error(error)
+//         return res.status(500).json({ error: error.message });
+//     }
+// }
+const sendNewMessage = async (req, res) => {
     try {
         const senderId = req.user._id;
-        const {id:receiverId} = req.params
-        const {message} = req.body;
+        const { id: receiverId } = req.params;
+        const { message } = req.body;
         const files = req.files;
 
-        const baseUrl = `${req.protocol}://${req.get('host')}/messages/images/`;
+        // Initialize arrays to hold the file URLs
+        const photos = [];
+        const videos = [];
+        let audio;
 
         // Process the uploaded files
-        console.log(files,'files of now')
-        const photos = files.photos ? files.photos.map(file => {
-            return {
-                url:`${baseUrl}${file.filename}`,
+        console.log(files, 'files of now');
+
+        // Upload photos to Cloudinary
+        if (files.photos) {
+            for (const file of files.photos) {
+                const uploadedPhoto = await cloudinary.uploader.upload(file.path, {
+                    folder: 'messages/photos', // Specify a folder in Cloudinary
+                    resource_type: 'image' // Specify resource type for images
+                });
+                photos.push({ url: uploadedPhoto.secure_url }); // Get the secure URL
             }
-        }) : undefined ;
-        const videos = files.videos ? files.videos.map(file => {
-            return {
-                url:`${baseUrl}${file.filename}`
-            }
-        }) : undefined ;
-        const audio = files.audio ? {url:`${baseUrl}${files.audio[0].filename}`} : undefined;
-
-        files.audio &&     res.set('Content-Length', files.audio[0].length);
-
-
-        let conversation = await Conversation.findOne({
-            participants: {$all:[senderId,receiverId]}
-        })
-
-        if (!conversation){
-            conversation = await Conversation.create({
-                participants: [senderId,receiverId]
-            })
         }
 
+        // Upload videos to Cloudinary
+        if (files.videos) {
+            for (const file of files.videos) {
+                const uploadedVideo = await cloudinary.uploader.upload(file.path, {
+                    folder: 'messages/videos', // Specify a folder in Cloudinary
+                    resource_type: 'video' // Specify resource type for videos
+                });
+                videos.push({ url: uploadedVideo.secure_url }); // Get the secure URL
+            }
+        }
+
+        // Upload audio to Cloudinary
+        if (files.audio) {
+            const uploadedAudio = await cloudinary.uploader.upload(files.audio[0].path, {
+                folder: 'messages/audio', // Specify a folder in Cloudinary
+                resource_type: 'auto' // Automatically detect the resource type
+            });
+            audio = { url: uploadedAudio.secure_url }; // Get the secure URL
+        }
+
+        // Create or find the conversation
+        let conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] }
+        });
+
+        if (!conversation) {
+            conversation = await Conversation.create({
+                participants: [senderId, receiverId]
+            });
+        }
+
+        // Create a new message
         const newMessage = new Message({
             senderId,
             receiverId,
-            message:{
-                content:message
+            message: {
+                content: message
             },
             photos,
             videos,
             audio,
-        })
-        console.log(photos,'why')
+        });
+        console.log(photos, 'why');
 
-        const savedMessage = await newMessage.save()
+        // Save the message
+        const savedMessage = await newMessage.save();
 
         if (savedMessage) {
-            conversation.messages.push(savedMessage._id)
+            conversation.messages.push(savedMessage._id);
             await conversation.save(); // Save the conversation after updating messages
         }
-        const receiverSocketId = getReceiverSocketId(receiverId)
-        io.to(receiverSocketId).emit('newMessage', newMessage)
 
-        return res.status(200).json(newMessage)
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        io.to(receiverSocketId).emit('newMessage', newMessage);
 
-    }catch (error) {
-        console.error(error)
+        return res.status(200).json(newMessage);
+
+    } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: error.message });
     }
-}
+};
 
 const getAllMessages = async (req, res) => {
     try {

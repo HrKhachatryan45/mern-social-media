@@ -8,8 +8,10 @@ const useSendMessage = () => {
     const sendMessage =async (formData) => {
         setLoading(true)
         try {
+
             const success = handleErrors(formData)
             if (!success) return;
+
 
 
             const response = await fetch(`/api/messages/newMessage/${selectedConversation._id}`,{

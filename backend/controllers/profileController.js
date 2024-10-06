@@ -7,7 +7,7 @@ const {io, getReceiverSocketId} = require('../socket/socket')
 const extractHashtags = require("../middleware/generateHashtags");
 const {suggestPeopleYouMayKnow} = require("../middleware/suggestPeopleYouKnow");
 const path = require("path");
-
+const cloudinary = require('../cloudinary')
 //+
 const addFollowing = async (req, res) => {
     try {
@@ -190,8 +190,8 @@ const addPost = async (req, res) => {
         const newPost = new Post({
             userId,
             content,
-            photo:photo? `${req.protocol}://${req.get('host')}/images/${photo}`:undefined,
-            video:video?`${req.protocol}://${req.get('host')}/images/${video}`:undefined,
+            photo: photo ? cloudinary.url(`${photo}`) : undefined,
+            video: video ? cloudinary.url(`${video}`) : undefined,
             location: location || undefined,
             schedule: schedule || date,
             sizes,
