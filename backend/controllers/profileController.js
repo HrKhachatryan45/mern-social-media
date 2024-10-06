@@ -174,9 +174,15 @@ const addPost = async (req, res) => {
     if (req.files['photo'] && req.files['photo'].length > 0) {
         photo = req.files['photo'][0].filename;
     }
-
+    //
+    // if (req.files['video'] && req.files['video'].length > 0) {
+    //     video = req.files['video'][0].filename;
+    // }
     if (req.files['video'] && req.files['video'].length > 0) {
-        video = req.files['video'][0].filename;
+        const uploadResult = await cloudinary.uploader.upload(req.files['video'][0].path, {
+            resource_type: 'video', // Specify that it's a video
+        });
+        video = uploadResult.secure_url; // Save the secure URL from Cloudinary
     }
     console.log(photo,'photo')
     console.log(video,'video')
@@ -191,7 +197,7 @@ const addPost = async (req, res) => {
             userId,
             content,
             photo: photo ? cloudinary.url(`${photo}`) : undefined,
-            video: video ? cloudinary.url(`${video}`) : undefined,
+            video: video ? video: undefined,
             location: location || undefined,
             schedule: schedule || date,
             sizes,
