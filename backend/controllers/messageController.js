@@ -5,70 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const cloudinary = require('../cloudinary')
 const {io, getReceiverSocketId} = require("../socket/socket");
-// const sendNewMessage  = async (req, res) => {
-//     try {
-//         const senderId = req.user._id;
-//         const {id:receiverId} = req.params
-//         const {message} = req.body;
-//         const files = req.files;
-//
-//         const baseUrl = `${req.protocol}://${req.get('host')}/messages/images/`;
-//
-//         // Process the uploaded files
-//         console.log(files,'files of now')
-//         const photos = files.photos ? files.photos.map(file => {
-//             return {
-//                 url:`${baseUrl}${file.filename}`,
-//             }
-//         }) : undefined ;
-//         const videos = files.videos ? files.videos.map(file => {
-//             return {
-//                 url:`${baseUrl}${file.filename}`
-//             }
-//         }) : undefined ;
-//         const audio = files.audio ? {url:`${baseUrl}${files.audio[0].filename}`} : undefined;
-//
-//         files.audio &&     res.set('Content-Length', files.audio[0].length);
-//
-//
-//         let conversation = await Conversation.findOne({
-//             participants: {$all:[senderId,receiverId]}
-//         })
-//
-//         if (!conversation){
-//             conversation = await Conversation.create({
-//                 participants: [senderId,receiverId]
-//             })
-//         }
-//
-//         const newMessage = new Message({
-//             senderId,
-//             receiverId,
-//             message:{
-//                 content:message
-//             },
-//             photos,
-//             videos,
-//             audio,
-//         })
-//         console.log(photos,'why')
-//
-//         const savedMessage = await newMessage.save()
-//
-//         if (savedMessage) {
-//             conversation.messages.push(savedMessage._id)
-//             await conversation.save(); // Save the conversation after updating messages
-//         }
-//         const receiverSocketId = getReceiverSocketId(receiverId)
-//         io.to(receiverSocketId).emit('newMessage', newMessage)
-//
-//         return res.status(200).json(newMessage)
-//
-//     }catch (error) {
-//         console.error(error)
-//         return res.status(500).json({ error: error.message });
-//     }
-// }
+
 const sendNewMessage = async (req, res) => {
     try {
         const senderId = req.user._id;

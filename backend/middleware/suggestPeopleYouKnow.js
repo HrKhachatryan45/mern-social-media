@@ -21,7 +21,7 @@ const suggestPeopleYouMayKnow = (currentUser, allUsers) => {
     let  suggestedUsers = allUsers.filter(user => suggestedUserIds.includes(user._id.toString()) && user.isDeleted === false);
 
     if (suggestedUsers.length === 0) {
-        suggestedUsers = allUsers.filter((user)=>user._id.toString() !== currentUser._id.toString() &&  user.isDeleted === false).slice(0,5)
+        suggestedUsers = allUsers.filter((user)=>user._id.toString() !== currentUser._id.toString() &&  user.isDeleted === false)
     }
 
 
